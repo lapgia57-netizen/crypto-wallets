@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Wallet - 385538</title>
+  <style>
+    :root {
+      --bg: #0f0f17;
+      --card: #1a1a2e;
+      --accent: #6366f1;
+      --text: #e2e8f0;
+      --text-secondary: #94a3b8;
+      --danger: #ef4444;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 2rem 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 480px;
+      background: var(--card);
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      border: 1px solid #2a2a40;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+
+    .subtitle {
+      color: var(--text-secondary);
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .section {
+      margin-bottom: 1.8rem;
+    }
+
+    .section-title {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.6rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .address-box,
+    .seed-box {
+      background: #111827;
+      border: 1px solid #374151;
+      border-radius: 10px;
+      padding: 1rem;
+      font-family: 'Courier New', monospace;
+      word-break: break-all;
+      position: relative;
+    }
+
+    .seed-box {
+      background: #1e293b;
+      min-height: 120px;
+      color: #64748b;
+      user-select: none;
+    }
+
+    .seed-revealed {
+      color: #cbd5e1;
+    }
+
+    .copy-btn,
+    .reveal-btn {
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+
+    .copy-btn:hover,
+    .reveal-btn:hover {
+      background: #4f46e5;
+    }
+
+    .reveal-btn.danger {
+      background: var(--danger);
+    }
+
+    .reveal-btn.danger:hover {
+      background: #dc2626;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .stat-card {
+      background: #111827;
+      border-radius: 10px;
+      padding: 1.2rem;
+      text-align: center;
+      border: 1px solid #374151;
+    }
+
+    .stat-value {
+      font-size: 1.4rem;
+      font-weight: bold;
+      margin: 0.3rem 0;
+    }
+
+    .stat-label {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    .warning {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      border-radius: 10px;
+      padding: 1rem;
+      margin-top: 1.5rem;
+      font-size: 0.95rem;
+      color: #fecaca;
+      text-align: center;
+    }
+
+    @media (max-width: 400px) {
+      .container { padding: 1.5rem; }
+      h1 { font-size: 1.6rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>My Wallet</h1>
+    <div class="subtitle">#385538</div>
+
+    <div class="section">
+      <div class="section-title">
+        <span>EVM Address</span>
+        <button class="copy-btn" onclick="copyAddress()">Copy</button>
+      </div>
+      <div class="address-box" id="address">
+        0x697c819F6c961d10A3AE4D8089a460B8b7924B22
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">
+        <span>Seed Phrase (Secret Recovery Phrase)</span>
+        <button class="reveal-btn" id="revealBtn" onclick="toggleSeed()">Show</button>
+      </div>
+      <div class="seed-box" id="seed">
+        public truck arm must plug satisfy room arm draw bridge crunch benefit market dish better pelican flavor neglect office master hedgehog entire glimpse idea
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Wallet Overview</div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">Balance</div>
+          <div class="stat-value">0.00 ETH</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Tokens</div>
+          <div class="stat-value">12</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Transactions</div>
+          <div class="stat-value">47</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Network</div>
+          <div class="stat-value">Ethereum</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="warning">
+      ⚠️ Never share your seed phrase with anyone. Anyone who has it can control your funds forever.
+    </div>
+  </div>
+
+  <script>
+    function copyAddress() {
+      const addr = document.getElementById('address').textContent.trim();
+      navigator.clipboard.writeText(addr).then(() => {
+        alert('Address copied to clipboard!');
+      }).catch(() => {
+        alert('Failed to copy');
+      });
+    }
+
+    function toggleSeed() {
+      const seedEl = document.getElementById('seed');
+      const btn = document.getElementById('revealBtn');
+      if (seedEl.classList.contains('seed-revealed')) {
+        seedEl.classList.remove('seed-revealed');
+        btn.textContent = 'Show';
+      } else {
+        if (!confirm('WARNING: Revealing your seed phrase is extremely dangerous if someone can see your screen! Continue?')) {
+          return;
+        }
+        seedEl.classList.add('seed-revealed');
+        btn.textContent = 'Hide';
+        btn.classList.add('danger');
+      }
+    }
+  </script>
+
+</body>
+</html>
