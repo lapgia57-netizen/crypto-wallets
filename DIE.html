@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="vi" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lịch Trực - Theme Cái Chết</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Creepster&family=UnifrakturMaguntia&display=swap');
+
+    body {
+      background: linear-gradient(to bottom, #0a000f, #14001a, #000000);
+      color: #e0e0ff;
+      font-family: 'Creepster', cursive;
+      background-image: 
+        radial-gradient(circle at 20% 30%, rgba(120,0,180,0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(180,0,80,0.06) 0%, transparent 60%);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .gothic-text {
+      font-family: 'Cinzel Decorative', cursive;
+      text-shadow: 0 0 10px #8b00ff, 0 0 20px #4b0082;
+    }
+
+    .creepy-text {
+      font-family: 'Creepster', cursive;
+    }
+
+    .skull-glow {
+      text-shadow: 
+        0 0 7px #ff0044,
+        0 0 14px #ff0044,
+        0 0 21px #8b0000,
+        0 0 28px #4b0000;
+    }
+
+    .card-death {
+      background: linear-gradient(135deg, #1a001a, #0f000f, #140014);
+      border: 1px solid #4b0082;
+      box-shadow: 
+        inset 0 0 20px rgba(75,0,130,0.3),
+        0 0 30px rgba(139,0,0,0.4);
+    }
+
+    .ca-shift {
+      background: rgba(20,0,30,0.7);
+      border-left: 4px solid #8b00ff;
+      transition: all 0.4s;
+    }
+
+    .ca-shift:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(139,0,255,0.4);
+      border-left-color: #ff0044;
+    }
+
+    .blood-drop {
+      position: absolute;
+      color: #8b0000;
+      font-size: 1.5rem;
+      animation: drip 8s infinite;
+      pointer-events: none;
+    }
+
+    @keyframes drip {
+      0% { transform: translateY(-100vh); opacity: 0.8; }
+      50% { opacity: 1; }
+      100% { transform: translateY(120vh); opacity: 0; }
+    }
+  </style>
+</head>
+<body class="relative overflow-hidden">
+
+  <!-- Background blood drops -->
+  <div class="fixed inset-0 pointer-events-none z-0">
+    <div class="blood-drop" style="left:10%; animation-delay:0.5s">💉</div>
+    <div class="blood-drop" style="left:25%; animation-delay:2.1s">🩸</div>
+    <div class="blood-drop" style="left:40%; animation-delay:4.8s">💧</div>
+    <div class="blood-drop" style="left:60%; animation-delay:1.3s">🩸</div>
+    <div class="blood-drop" style="left:75%; animation-delay:3.7s">💉</div>
+    <div class="blood-drop" style="left:88%; animation-delay:6.2s">🩸</div>
+  </div>
+
+  <div class="container mx-auto px-4 py-12 relative z-10 max-w-4xl">
+
+    <h1 class="text-5xl md:text-7xl text-center gothic-text text-purple-700 skull-glow mb-2 animate-pulse">
+          LỊCH TRỰC CỦA SỰ CHẾT CHÓC
+    </h1>
+    
+    <p class="text-center text-red-400 creepy-text text-xl mb-12 tracking-widest">
+      Hôm nay tử thần đã sắp xếp ca cho ngươi...
+    </p>
+
+    <div class="card-death rounded-2xl p-8 md:p-12 mb-10 border-2 border-purple-900/50 relative overflow-hidden">
+
+      <div class="absolute -top-6 left-1/2 -translate-x-1/2 text-6xl opacity-40">☠️</div>
+
+      <h2 class="text-4xl text-center text-purple-300 gothic-text mb-10 tracking-wider skull-glow">
+        LỊCH TRỰC HÔM NAY
+      </h2>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+        <div class="ca-shift p-6 rounded-xl text-center transform hover:scale-105 transition">
+          <div class="text-2xl text-purple-400 mb-3">Ca 1</div>
+          <div class="text-5xl text-red-500 skull-glow">CHIỀU</div>
+          <div class="text-sm text-gray-400 mt-4">Khi mặt trời bắt đầu chảy máu</div>
+        </div>
+
+        <div class="ca-shift p-6 rounded-xl text-center transform hover:scale-105 transition">
+          <div class="text-2xl text-purple-400 mb-3">Ca 2</div>
+          <div class="text-5xl text-red-500 skull-glow">TỐI</div>
+          <div class="text-sm text-gray-400 mt-4">Bóng tối thì thầm tên ngươi</div>
+        </div>
+
+        <div class="ca-shift p-6 rounded-xl text-center transform hover:scale-105 transition">
+          <div class="text-2xl text-purple-400 mb-3">Ca 3</div>
+          <div class="text-5xl text-red-500 skull-glow">SÁNG</div>
+          <div class="text-sm text-gray-400 mt-4">Ánh sáng giả tạo của tử thi</div>
+        </div>
+
+        <div class="ca-shift p-6 rounded-xl text-center transform hover:scale-105 transition">
+          <div class="text-2xl text-purple-400 mb-3">Ca 4</div>
+          <div class="text-5xl text-red-500 skull-glow">ĐÊM</div>
+          <div class="text-sm text-gray-400 mt-4">Giờ của những linh hồn lạc lối</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="card-death rounded-2xl p-8 border-2 border-purple-900/40 mt-12">
+      <h3 class="text-3xl text-center text-purple-400 gothic-text mb-8">
+        NHỮNG LỊCH KHÁC TỬ THẦN ĐÃ TUNG RA
+      </h3>
+      
+      <ul class="space-y-4 text-lg text-gray-200 creepy-text">
+        <li class="flex items-center"><i class="fa-solid fa-skull-crossbones text-red-600 mr-4"></i>Sáng → Tối → Đêm → Chiều</li>
+        <li class="flex items-center"><i class="fa-solid fa-skull-crossbones text-red-600 mr-4"></i>Đêm → Chiều → Tối → Sáng</li>
+        <li class="flex items-center"><i class="fa-solid fa-skull-crossbones text-red-600 mr-4"></i>Chiều → Tối → Sáng → Đêm</li>
+        <li class="flex items-center"><i class="fa-solid fa-skull-crossbones text-red-600 mr-4"></i>Sáng → Chiều → Đêm → Tối</li>
+      </ul>
+    </div>
+
+    <div class="text-center mt-16">
+      <button class="bg-gradient-to-r from-purple-900 via-red-900 to-purple-900 hover:from-red-900 hover:via-purple-900 hover:to-red-900 text-white text-2xl px-12 py-6 rounded-full border-2 border-purple-700 shadow-2xl transform hover:scale-110 transition-all duration-500 creepy-text">
+        RANDOM LẠI ĐI... TA MUỐN CHẾT THÊM NỮA ☠️
+      </button>
+      
+      <p class="mt-8 text-gray-500 text-sm">
+        Muốn thêm giờ cụ thể (ví dụ: Chiều 13:00–19:00) thì cứ nói... tử thần đang chờ
+      </p>
+    </div>
+
+  </div>
+
+</body>
+</html>
