@@ -1,0 +1,299 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tính Toán Tận Thế - The End Road</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Black+Ops+One&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --asphalt: #2c2c2c;
+            --concrete: #e0e0e0;
+            --yellow-warning: #ffc107;
+            --white-line: #ffffff;
+            --text-dark: #1a1a1a;
+            --steel-blue: #4a5568;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Roboto Condensed', sans-serif;
+            background-color: var(--asphalt);
+            background-image: 
+                linear-gradient(90deg, transparent 95%, rgba(255,255,255,0.1) 95%),
+                linear-gradient(transparent 95%, rgba(255,255,255,0.1) 95%),
+                repeating-linear-gradient(45deg, #222 0px, #222 2px, #2a2a2a 2px, #2a2a2a 4px);
+            color: var(--concrete);
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
+
+        /* Main Container - The Bridge Span */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            border-left: 4px dashed var(--yellow-warning); /* Center Line */
+            padding-left: 40px;
+        }
+
+        /* Header Sign */
+        header {
+            background: var(--yellow-warning);
+            color: var(--text-dark);
+            padding: 20px;
+            text-align: center;
+            font-family: 'Black Ops One', cursive;
+            text-transform: uppercase;
+            font-size: 1.8rem;
+            clip-path: polygon(0 0, 100% 0, 95% 100%, 5% 100%);
+            margin-bottom: 50px;
+            position: relative;
+            box-shadow: 5px 5px 0px #000;
+            border: 2px solid #000;
+        }
+
+        header::after {
+            content: '⚠️';
+            display: block;
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+
+        /* Content Cards - Road Signs */
+        .content-card {
+            background: #fff;
+            color: #333;
+            margin-bottom: 40px;
+            padding: 25px;
+            position: relative;
+            border: 4px solid #000;
+            border-radius: 4px;
+            box-shadow: 10px 10px 0px rgba(0,0,0,0.5);
+            /* Hazard Strip Pattern Border */
+            background-image: repeating-linear-gradient(
+                45deg,
+                #ffc107,
+                #ffc107 10px,
+                #000 10px,
+                #000 20px
+            );
+            background-size: 20px 20px;
+            background-position: 0 0, 100% 0, 0 100%, 100% 100%; 
+        }
+
+        .inner-card {
+            background: #f4f4f4;
+            padding: 20px;
+            height: 100%;
+            border: 2px dashed #999;
+        }
+
+        /* Connecting dots to the road line */
+        .content-card::before {
+            content: '';
+            position: absolute;
+            left: -54px; /* Adjust based on container padding + border */
+            top: 30px;
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border: 4px solid var(--yellow-warning);
+            border-radius: 50%;
+            z-index: 2;
+            box-shadow: 0 0 0 4px var(--asphalt);
+        }
+
+        h2 {
+            font-family: 'Black Ops One', cursive;
+            color: #d32f2f; /* Stop Red */
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+        }
+
+        h2::before {
+            content: counter(section-counter) ". ";
+            counter-increment: section-counter;
+            margin-right: 10px;
+            background: #000;
+            color: #fff;
+            padding: 2px 8px;
+            font-size: 0.8em;
+        }
+
+        ul {
+            list-style: none;
+            margin-top: 15px;
+        }
+
+        li {
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        li::before {
+            content: '➤';
+            position: absolute;
+            left: 0;
+            color: var(--text-dark);
+            font-size: 0.8em;
+            top: 4px;
+        }
+
+        strong {
+            color: #000;
+            text-decoration: underline;
+            text-decoration-color: var(--yellow-warning);
+        }
+
+        /* Conclusion Box - Concrete Block */
+        .conclusion {
+            background: #4a5568;
+            color: #fff;
+            padding: 30px;
+            margin-top: 60px;
+            border-top: 10px solid var(--yellow-warning);
+            border-bottom: 10px solid var(--yellow-warning);
+            position: relative;
+            text-align: center;
+        }
+
+        .conclusion h3 {
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        /* Road Footer */
+        .footer-road {
+            height: 20px;
+            background: #333;
+            margin-top: 20px;
+            border-top: 4px solid #fff;
+            position: relative;
+        }
+        
+        .footer-road::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: repeating-linear-gradient(90deg, #fff 0, #fff 40px, transparent 40px, transparent 80px);
+            transform: translateY(-50%);
+        }
+
+        /* Counter setup */
+        body { counter-reset: section-counter; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding-left: 30px;
+                border-left-width: 2px;
+            }
+            .content-card::before {
+                left: -41px;
+                width: 16px;
+                height: 16px;
+            }
+            header {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Tiêu đề dạng biển báo -->
+        <header>
+            Cảnh Báo: Tính Toán Ngày Tận Thế
+        </header>
+
+        <!-- Nội dung 1 -->
+        <div class="content-card">
+            <div class="inner-card">
+                <h2>Dựa trên Vật lý và Thiên văn</h2>
+                <p>Đây là những tính toán dựa trên vòng đời của các ngôi sao và các quy luật vật lý.</p>
+                <ul>
+                    <li><strong>Mặt trời chết dần:</strong> Các nhà thiên văn học tính toán rằng khoảng <strong>5 tỷ năm nữa</strong>, Mặt trời sẽ cạn kiệt hydro và trở thành một "Sao khổng lồ đỏ". Khi đó, nó sẽ nở ra và nuốt chửng Trái Đất.</li>
+                    <li><strong>Mực nước biển tăng:</strong> Một số mô hình khí hậu cho rằng mực nước biển có thể dâng cao đủ để làm ngập các vùng đất thấp trong vài thế kỷ tới, nhưng đây là sự thay đổi môi trường chứ không phải sự kết thúc hoàn toàn.</li>
+                    <li><strong>Nhiệt chết của Vũ trụ (Heat Death):</strong> Nếu nói về tận thế theo nghĩa vũ trụ, các nhà vật lý tính toán rằng trong khoảng <strong>10^100 năm</strong>, vũ trụ sẽ cạn kiệt năng lượng và mọi sự sống sẽ không thể tồn tại.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Nội dung 2 -->
+        <div class="content-card">
+            <div class="inner-card">
+                <h2>Lý thuyết Ngày Tận thế</h2>
+                <p>Lập luận xác suất thống kê gây tranh cãi, được đề xuất bởi nhà vật lý Brandon Carter và sau này phổ biến bởi John Leslie.</p>
+                <ul>
+                    <li><strong>Nguyên lý:</strong> Giả sử tổng số lượng con người sẽ từng sinh ra là $N$. Nếu bạn chọn ngẫu nhiên một con người từ tổng số đó, xác suất để bạn sinh ra ở nửa đầu của lịch sử nhân loại là 50%.</li>
+                    <li><strong>Tính toán:</strong> Ước tính cho đến nay đã có khoảng 100 tỷ người sinh ra. Nếu chúng ta giả định mình đang ở điểm giữa của lịch sử, thì tổng số người sẽ là khoảng 200 tỷ.</li>
+                    <li><strong>Kết luận:</strong> Theo cách tính xác suất này, nhân loại có thể chỉ còn tồn tại thêm khoảng <strong>9.000 năm nữa</strong> trước khi tuyệt chủng.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Nội dung 3 -->
+        <div class="content-card">
+            <div class="inner-card">
+                <h2>Đồng hồ Ngày Tận thế</h2>
+                <p>Biểu tượng được duy trì bởi tạp chí *Bulletin of the Atomic Scientists* từ năm 1947.</p>
+                <ul>
+                    <li><strong>Cách thức:</strong> Hội đồng khoa học tính toán mức độ nguy cơ của nhân loại dựa trên các mối đe dọa hiện hữu như vũ khí hạt nhân, biến đổi khí hậu và công nghệ sinh học.</li>
+                    <li><strong>Trạng thái hiện tại:</strong> Năm 2023 và 2024, đồng hồ được chỉnh đến <strong>90 giây</strong> – là thời điểm gần "nửa đêm" nhất trong lịch sử.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Nội dung 4 -->
+        <div class="content-card">
+            <div class="inner-card">
+                <h2>Các mối đe dọa mang tính "Đen"</h2>
+                <p>Các nhà tương lai học tính toán xác suất của các sự kiện ít xảy ra nhưng tác động cực lớn:</p>
+                <ul>
+                    <li><strong>Va chạm thiên thạch:</strong> Xác suất một thiên thạch lớn đủ để hủy diệt nền văn minh va chạm vào Trái Đất trong một năm là khoảng 1/500.000.</li>
+                    <li><strong>Siêu núi lửa:</strong> Một vụ phun trào như núi Yellowstone có thể xảy ra mỗi khoảng 700.000 năm một lần.</li>
+                    <li><strong>Trí tuệ nhân tạo (AI):</strong> Một số nhà nghiên cứu tính toán về rủi ro AI mất kiểm soát, phụ thuộc vào đột phá công nghệ.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Nội dung 5 -->
+        <div class="content-card">
+            <div class="inner-card">
+                <h2>Các tiên tri và Tôn giáo</h2>
+                <p>Lịch sử đã ghi nhận rất nhiều dự đoán tận thế dựa trên tôn giáo hoặc các lịch cổ (như Lịch Maya năm 2012, các nhóm thuyết mạt thế...).</p>
+                <p>Tuy nhiên, tất cả các tính toán này đều không thành hiện thực vì chúng thường dựa trên niềm tin hoặc cách giải mã mã hóa bí ẩn chứ không bằng chứng thực nghiệm.</p>
+            </div>
+        </div>
+
+        <!-- Kết luận -->
+        <div class="conclusion">
+            <h3>⛔ Kết Luận ⛔</h3>
+            <p>Nếu tính toán bằng vật lý học, Trái Đất còn an toàn trong hàng tỷ năm. Nhưng nếu tính toán dựa trên rủi ro do chính con người tạo ra (hạt nhân, khí hậu, công nghệ), "thời gian tận thế" có thể là một vấn đề của <strong>thế kỷ 21 hoặc 22</strong>, phụ thuộc hoàn toàn vào hành động của chúng ta ngay bây giờ.</p>
+        </div>
+
+        <!-- Footer Road Effect -->
+        <div class="footer-road"></div>
+    </div>
+
+</body>
+</html>
