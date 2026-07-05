@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tạo Ethereum Wallet</title>
+    <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.4/dist/ethers.umd.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .container {
+            background: #1e2937;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px rgba(0,0,0,0.5);
+        }
+        button {
+            background: #3b82f6;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+        button:hover {
+            background: #2563eb;
+        }
+        .info {
+            background: #334155;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            word-break: break-all;
+        }
+        .warning {
+            color: #f87171;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔑 Tạo Ethereum Wallet</h1>
+        <p>Trang này tạo wallet hoàn toàn trên trình duyệt của bạn.</p>
+        
+        <button onclick="generateWallet()">Tạo Wallet Mới</button>
+        
+        <div id="result" style="display: none;">
+            <h2>Thông tin Wallet</h2>
+            
+            <div class="info">
+                <strong>Địa chỉ (Address):</strong><br>
+                <span id="address"></span>
+            </div>
+            
+            <div class="info">
+                <strong>Private Key:</strong><br>
+                <span id="privateKey" class="warning"></span>
+            </div>
+            
+            <div class="info">
+                <strong>Mnemonic (12 từ):</strong><br>
+                <span id="mnemonic" class="warning"></span>
+            </div>
+            
+            <button onclick="copyToClipboard()">📋 Copy tất cả thông tin</button>
+            <button onclick="hideWallet()" style="background:#ef4444;">Ẩn thông tin</button>
+        </div>
+        
+        <p class="warning" style="margin-top: 30px;">
+            ⚠️ <strong>Bảo mật:</strong> Không chia sẻ Private Key hoặc Mnemonic với bất kỳ ai. 
+            Lưu trữ ngoại tuyến (paper wallet) là cách an toàn nhất.
+        </p>
+    </div>
+
+    <script>
+        async function generateWallet() {
+            try {
+                const wallet = ethers.Wallet.createRandom();
+                
+                document.getElementById('address').textContent = wallet.address;
+                document.getElementById('privateKey').textContent = wallet.privateKey;
+                document.getElementById('mnemonic').textContent = wallet.mnemonic.phrase;
+                
+                document.getElementById('result').style.display = 'block';
+                
+                console.log('%cWallet created successfully!', 'color: lime; font-size: 16px');
+            } catch (error) {
+                alert('Có lỗi khi tạo wallet: ' + error.message);
+            }
+        }
+
+        function copyToClipboard() {
+            const address = document.getElementById('address').textContent;
+            const privateKey = document.getElementById('privateKey').textContent;
+            const mnemonic = document.getElementById('mnemonic').textContent;
+            
+            const text = `Address: ${address}\nPrivate Key: ${privateKey}\nMnemonic: ${mnemonic}`;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Đã copy thông tin wallet vào clipboard!');
+            });
+        }
+
+        function hideWallet() {
+            if (confirm('Bạn có chắc muốn ẩn thông tin wallet không?')) {
+                document.getElementById('result').style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
