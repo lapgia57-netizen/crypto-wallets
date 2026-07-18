@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ Thống Quản Lý Dữ Liệu Thành Viên</title>
+    
+    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/1048/1048953.png">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body { background-color: #f8fafc; }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <nav class="bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between shadow-sm">
+        <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-md">
+                <i class="fa-solid fa-chart-pie text-lg"></i>
+            </div>
+            <div>
+                <h1 class="text-lg font-bold text-slate-800 leading-tight">Dashboard Quản Lý</h1>
+                <p class="text-xs text-slate-500">Hệ thống tổng hợp thông tin</p>
+            </div>
+        </div>
+        
+        <div id="nav-user" class="hidden flex items-center space-x-4">
+            <div class="text-right hidden sm:block">
+                <p id="user-name" class="text-sm font-semibold text-slate-700"></p>
+                <p id="user-email" class="text-xs text-slate-400"></p>
+            </div>
+            <img id="user-avatar" class="w-9 h-9 rounded-full border border-slate-200" src="" alt="Avatar">
+            <button id="btn-logout" class="bg-slate-100 hover:bg-slate-200 text-slate-600 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors">
+                Đăng xuất
+            </button>
+        </div>
+    </nav>
+
+    <main class="flex-1 p-4 md:p-6 max-w-7xl w-full mx-auto space-y-6">
+
+        <div id="login-section" class="flex flex-col items-center justify-center py-20 space-y-4">
+            <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 text-center max-w-sm w-full space-y-4">
+                <i class="fa-solid fa-lock text-4xl text-slate-300"></i>
+                <h2 class="text-xl font-bold text-slate-800">Yêu cầu quyền truy cập</h2>
+                <p class="text-xs text-slate-500">Vui lòng đăng nhập bằng tài khoản quản trị để xem dữ liệu hệ thống.</p>
+                <button id="btn-login" class="flex items-center justify-center w-full bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl px-4 py-3 shadow transition-colors">
+                    <img class="w-5 h-5 mr-3 filter invert brightness-0" src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+                    Đăng nhập bằng Google
+                </button>
+            </div>
+        </div>
+
+        <div id="dashboard-section" class="hidden space-y-6">
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm flex items-center space-x-4">
+                    <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs font-medium text-slate-400 uppercase tracking-wider">Tổng số bản ghi</p>
+                        <h3 id="stat-total" class="text-2xl font-bold text-slate-800">0</h3>
+                    </div>
+                </div>
+                </div>
+
+            <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex flex-col sm:flex-row gap-3 items-center justify-between">
+                <div class="relative w-full sm:max-w-xs">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                        <i class="fa-solid fa-magnifying-glass text-sm"></i>
+                    </span>
+                    <input type="text" id="search-input" class="w-full pl-9 pr-4 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm text-slate-700" placeholder="Tìm theo tên, biển số, SĐT...">
+                </div>
+                <div class="text-xs text-slate-400 font-medium w-full sm:w-auto text-right">
+                    Tự động cập nhật thời gian thực <i class="fa-solid fa-rotate text-blue-500 animate-spin ml-1"></i>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-50 border-b border-slate-100 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                                <th class="py-3.5 px-4">Thành viên nhập</th>
+                                <th class="py-3.5 px-4">Địa chỉ</th>
+                                <th class="py-3.5 px-4">Biển số xe</th>
+                                <th class="py-3.5 px-4">Số điện thoại</th>
+                                <th class="py-3.5 px-4">Công việc / Năm</th>
+                                <th class="py-3.5 px-4 text-right">Cập nhật lúc</th>
+                            </tr>
+                        </thead>
+                        <tbody id="data-table-body" class="text-sm text-slate-600 divide-y divide-slate-100">
+                            <tr>
+                                <td colspan="6" class="text-center py-8 text-slate-400">
+                                    <i class="fa-solid fa-spinner animate-spin mr-2"></i> Đang tải danh sách...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        // Cấu hình Firebase đồng bộ với trang nhập liệu
+        const firebaseConfig = {
+            apiKey: "AIzaSyA02bvnhfmcoMJV8wz40O2YBISgSPvMhCE",
+            authDomain: "bankvanhungbian.firebaseapp.com",
+            databaseURL: "https://bankvanhungbian-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "bankvanhungbian",
+            storageBucket: "bankvanhungbian.firebasestorage.app",
+            messagingSenderId: "54989417529",
+            appId: "1:54989417529:web:3e6f023d8222d19e9671e8"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getDatabase(app);
+        const provider = new GoogleAuthProvider();
+
+        // DOM Elements
+        const loginSection = document.getElementById('login-section');
+        const dashboardSection = document.getElementById('dashboard-section');
+        const navUser = document.getElementById('nav-user');
+        const btnLogin = document.getElementById('btn-login');
+        const btnLogout = document.getElementById('btn-logout');
+        
+        const userAvatar = document.getElementById('user-avatar');
+        const userName = document.getElementById('user-name');
+        const userEmail = document.getElementById('user-email');
+
+        const dataTableBody = document.getElementById('data-table-body');
+        const statTotal = document.getElementById('stat-total');
+        const searchInput = document.getElementById('search-input');
+
+        let allData = []; // Biến lưu trữ toàn bộ data gốc để phục vụ tìm kiếm nhanh
+
+        // Quản lý trạng thái phiên đăng nhập
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // Hiển thị thông tin người đăng nhập trên Navbar
+                userAvatar.src = user.photoURL || "https://via.placeholder.com/150";
+                userName.textContent = user.displayName;
+                userEmail.textContent = user.email;
+
+                loginSection.classList.add('hidden');
+                navUser.classList.remove('hidden');
+                dashboardSection.classList.remove('hidden');
+
+                // Bắt đầu tải dữ liệu thời gian thực từ node 'thong_tin_thanh_vien'
+                fetchRealtimeData();
+            } else {
+                loginSection.classList.remove('hidden');
+                navUser.classList.add('hidden');
+                dashboardSection.classList.add('hidden');
+                dataTableBody.innerHTML = '';
+            }
+        });
+
+        // Xử lý Sự kiện Đăng nhập / Đăng xuất
+        btnLogin.addEventListener('click', () => {
+            signInWithPopup(auth, provider).catch(err => alert("Lỗi đăng nhập: " + err.message));
+        });
+        btnLogout.addEventListener('click', () => {
+            signOut(auth);
+        });
+
+        // Hàm lấy dữ liệu Realtime
+        function fetchRealtimeData() {
+            const dbRef = ref(db, 'thong_tin_thanh_vien');
+            onValue(dbRef, (snapshot) => {
+                allData = [];
+                const data = snapshot.val();
+                
+                if (data) {
+                    // Chuyển object Firebase thành dạng Array để dễ xử lý vòng lặp
+                    Object.keys(data).forEach(key => {
+                        allData.push(data[key]);
+                    });
+                    
+                    // Sắp xếp theo thời gian cập nhật mới nhất lên đầu
+                    allData.sort((a, b) => new Date(b.cap_nhat_luc) - new Date(a.cap_nhat_luc));
+                }
+                
+                // Cập nhật số lượng tổng
+                statTotal.textContent = allData.length;
+                
+                // Render bảng dữ liệu
+                renderTable(allData);
+            }, (error) => {
+                dataTableBody.innerHTML = `<tr><td colspan="6" class="text-center py-8 text-red-500 font-medium">Lỗi phân quyền hoặc tải dữ liệu: ${error.message}</td></tr>`;
+            });
+        }
+
+        // Hàm render dữ liệu ra bảng HTML
+        function renderTable(dataArray) {
+            if (dataArray.length === 0) {
+                dataTableBody.innerHTML = `<tr><td colspan="6" class="text-center py-8 text-slate-400">Không tìm thấy dữ liệu nào phù hợp.</td></tr>`;
+                return;
+            }
+
+            let html = '';
+            dataArray.forEach(item => {
+                // Định dạng thời gian hiển thị dễ nhìn hơn
+                let dateStr = '---';
+                if (item.cap_nhat_luc) {
+                    const date = new Date(item.cap_nhat_luc);
+                    dateStr = date.toLocaleTimeString('vi-VN') + ' ' + date.toLocaleDateString('vi-VN');
+                }
+
+                html += `
+                    <tr class="hover:bg-slate-50/70 transition-colors">
+                        <td class="py-3 px-4 font-medium text-slate-800">
+                            <div>${item.ten_hien_thi || 'N/A'}</div>
+                            <div class="text-xs text-slate-400 font-normal">${item.email_xac_thuc || ''}</div>
+                        </td>
+                        <td class="py-3 px-4 max-w-xs truncate" title="${item.dia_chi || ''}">${item.dia_chi || '---'}</td>
+                        <td class="py-3 px-4 font-mono text-xs"><span class="bg-slate-100 text-slate-700 px-2 py-1 rounded border">${item.phuong_tien || '---'}</span></td>
+                        <td class="py-3 px-4 text-blue-600 font-medium">${item.dien_thoai || '---'}</td>
+                        <td class="py-3 px-4">
+                            <div>${item.nghe_nghiep || '---'}</div>
+                            <div class="text-xs text-slate-400">Năm liên hệ: ${item.nam_ghi_nhan || '---'}</div>
+                        </td>
+                        <td class="py-3 px-4 text-right text-xs text-slate-500 font-mono">${dateStr}</td>
+                    </tr>
+                `;
+            });
+            dataTableBody.innerHTML = html;
+        }
+
+        // Tính năng tìm kiếm/Lọc dữ liệu không cần load lại trang
+        searchInput.addEventListener('input', (e) => {
+            const keyword = e.target.value.toLowerCase().trim();
+            
+            if (!keyword) {
+                renderTable(allData);
+                return;
+            }
+
+            const filteredData = allData.filter(item => {
+                const name = (item.ten_hien_thi || '').toLowerCase();
+                const email = (item.email_xac_thuc || '').toLowerCase();
+                const address = (item.dia_chi || '').toLowerCase();
+                const plate = (item.phuong_tien || '').toLowerCase();
+                const phone = (item.dien_thoai || '').toLowerCase();
+                const job = (item.nghe_nghiep || '').toLowerCase();
+
+                return name.includes(keyword) || 
+                       email.includes(keyword) || 
+                       address.includes(keyword) || 
+                       plate.includes(keyword) || 
+                       phone.includes(keyword) || 
+                       job.includes(keyword);
+            });
+
+            renderTable(filteredData);
+        });
+    </script>
+</body>
+</html>
