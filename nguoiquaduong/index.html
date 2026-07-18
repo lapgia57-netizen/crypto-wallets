@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Tiêu đề mới chuyên nghiệp và giảm bớt nhạy cảm -->
+    <title>Hệ Thống Đăng Ký Thông Tin Thành Viên</title>
+    
+    <!-- Thêm Favicon (Icon trên tab trình duyệt) -->
+    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/1048/1048953.png">
+    
+    <!-- Tailwind CSS & FontAwesome Icons -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body { background-color: #f8fafc; }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen p-4">
+
+    <!-- Card Container -->
+    <div class="w-full max-w-md bg-white rounded-2xl shadow-lg border border-slate-100 p-6 space-y-6">
+        
+        <!-- Header có kèm Icon -->
+        <div class="text-center space-y-2">
+            <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-blue-50 text-blue-600 mb-1">
+                <i class="fa-solid fa-address-card text-xl"></i>
+            </div>
+            <h1 class="text-xl font-bold text-slate-800">Xác Nhận & Cập Nhật Thông Tin</h1>
+            <p class="text-xs text-slate-500">Vui lòng xác thực tài khoản để hoàn tất biểu mẫu ghi nhận</p>
+        </div>
+
+        <!-- Section 1: Đăng nhập bằng Google -->
+        <div id="login-section" class="flex flex-col items-center py-4 space-y-4">
+            <button id="btn-login" class="flex items-center justify-center w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-slate-700 font-medium shadow-sm hover:bg-slate-50 transition-all duration-200">
+                <img class="w-5 h-5 mr-3" src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google logo">
+                Tiếp tục với Google
+            </button>
+        </div>
+
+        <!-- Section 2: Form nhập dữ liệu (Ẩn mặc định) -->
+        <div id="form-section" class="hidden space-y-4">
+            <!-- User Info Header -->
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+                <div class="flex items-center space-x-3">
+                    <img id="user-avatar" class="w-9 h-9 rounded-full border border-slate-200" src="" alt="Avatar">
+                    <div>
+                        <p id="user-name" class="font-semibold text-slate-800 text-sm leading-tight"></p>
+                        <p id="user-email" class="text-xs text-slate-400"></p>
+                    </div>
+                </div>
+                <button id="btn-logout" class="text-xs text-red-500 hover:text-red-600 font-medium transition-colors">
+                    <i class="fa-solid fa-right-from-bracket mr-1"></i>Đăng xuất
+                </button>
+            </div>
+
+            <!-- Form điền thông tin -->
+            <form id="info-form" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Địa chỉ thường trú / Tạm trú</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                            <i class="fa-solid fa-location-dot text-sm"></i>
+                        </span>
+                        <input type="text" id="address" required class="w-full pl-9 pr-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm text-slate-700" placeholder="Số nhà, khu phố, tỉnh/thành phố...">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Biển kiểm soát phương tiện di chuyển</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                            <i class="fa-solid fa-car text-sm"></i>
+                        </span>
+                        <input type="text" id="license-plate" required class="w-full pl-9 pr-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm text-slate-700" placeholder="Ví dụ: 29A-123.45 hoặc 59X-999.99">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Số điện thoại liên hệ</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                            <i class="fa-solid fa-phone text-sm"></i>
+                        </span>
+                        <input type="tel" id="phone" required class="w-full pl-9 pr-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm text-slate-700" placeholder="Nhập số điện thoại chính chủ">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Thời gian liên hệ</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                                <i class="fa-solid fa-calendar-days text-sm"></i>
+                            </span>
+                            <input type="number" id="contact-year" required class="w-full pl-9 pr-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm text-slate-700" value="2026">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Công việc hiện tại</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                                <i class="fa-solid fa-briefcase text-sm"></i>
+                            </span>
+                            <input type="text" id="job" required class="w-full pl-9 pr-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm text-slate-700" placeholder="Ngành nghề">
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" id="btn-submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-4 rounded-xl transition-all shadow-md hover:shadow-lg text-sm mt-2">
+                    <i class="fa-solid fa-circle-check mr-2"></i> Xác nhận gửi hệ thống
+                </button>
+            </form>
+            
+            <!-- Trạng thái phản hồi -->
+            <p id="status-msg" class="text-center text-sm font-medium hidden p-2 rounded-lg"></p>
+        </div>
+
+    </div>
+
+    <!-- Firebase SDK Modules -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        // Đồng bộ cấu hình Firebase cũ của bạn
+        const firebaseConfig = {
+            apiKey: "AIzaSyA02bvnhfmcoMJV8wz40O2YBISgSPvMhCE",
+            authDomain: "bankvanhungbian.firebaseapp.com",
+            databaseURL: "https://bankvanhungbian-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "bankvanhungbian",
+            storageBucket: "bankvanhungbian.firebasestorage.app",
+            messagingSenderId: "54989417529",
+            appId: "1:54989417529:web:3e6f023d8222d19e9671e8"
+        };
+
+        // Khởi tạo ứng dụng
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getDatabase(app);
+        const provider = new GoogleAuthProvider();
+
+        // DOM Elements
+        const loginSection = document.getElementById('login-section');
+        const formSection = document.getElementById('form-section');
+        const btnLogin = document.getElementById('btn-login');
+        const btnLogout = document.getElementById('btn-logout');
+        const infoForm = document.getElementById('info-form');
+        const statusMsg = document.getElementById('status-msg');
+
+        const userAvatar = document.getElementById('user-avatar');
+        const userName = document.getElementById('user-name');
+        const userEmail = document.getElementById('user-email');
+
+        let currentUser = null;
+
+        // Giữ trạng thái phiên đăng nhập
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUser = user;
+                userAvatar.src = user.photoURL || "https://via.placeholder.com/150";
+                userName.textContent = user.displayName;
+                userEmail.textContent = user.email;
+
+                loginSection.classList.add('hidden');
+                formSection.classList.remove('hidden');
+            } else {
+                currentUser = null;
+                loginSection.classList.remove('hidden');
+                formSection.classList.add('hidden');
+            }
+        });
+
+        // Đăng nhập bằng Google Popup
+        btnLogin.addEventListener('click', () => {
+            signInWithPopup(auth, provider).catch((error) => {
+                alert("Lỗi xác thực: " + error.message);
+            });
+        });
+
+        // Đăng xuất tài khoản
+        btnLogout.addEventListener('click', () => {
+            signOut(auth);
+        });
+
+        // Lưu thông tin vào Realtime Database
+        infoForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (!currentUser) return;
+
+            const address = document.getElementById('address').value;
+            const licensePlate = document.getElementById('license-plate').value;
+            const phone = document.getElementById('phone').value;
+            const contactYear = document.getElementById('contact-year').value;
+            const job = document.getElementById('job').value;
+
+            // Đổi node cha thành tên ít nhạy cảm hơn: 'thong_tin_thanh_vien'
+            const userLogRef = ref(db, 'thong_tin_thanh_vien/' + currentUser.uid);
+
+            showStatus("Đang đồng bộ dữ liệu bảo mật...", "bg-blue-50 text-blue-700");
+
+            set(userLogRef, {
+                uid: currentUser.uid,
+                ten_hien_thi: currentUser.displayName,
+                email_xac_thuc: currentUser.email,
+                dia_chi: address,
+                phuong_tien: licensePlate,
+                dien_thoai: phone,
+                nam_ghi_nhan: contactYear,
+                nghe_nghiep: job,
+                cap_nhat_luc: new Date().toISOString()
+            })
+            .then(() => {
+                showStatus("Đã cập nhật hệ thống thành công!", "bg-green-50 text-green-700");
+                infoForm.reset();
+                document.getElementById('contact-year').value = "2026";
+            })
+            .catch((error) => {
+                showStatus("Không thể ghi nhận dữ liệu: " + error.message, "bg-red-50 text-red-700");
+            });
+        });
+
+        function showStatus(text, bgAndTextColor) {
+            statusMsg.textContent = text;
+            statusMsg.className = `text-center text-xs font-semibold p-2.5 rounded-xl ${bgAndTextColor}`;
+            statusMsg.classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
